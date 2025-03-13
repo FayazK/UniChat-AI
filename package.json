@@ -1,0 +1,48 @@
+{
+  "name": "unichat-ai",
+  "version": "0.0.1",
+  "description": "An Electron application with React",
+  "main": "./out/main/index.js",
+  "author": "fayazk.com",
+  "homepage": "https://electron-vite.org",
+  "license": "MIT",
+  "scripts": {
+    "tree": "tree -f -i --gitignore > tree.txt",
+    "format": "prettier --write .",
+    "lint": "eslint --cache .",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:linux": "npm run build && electron-builder --linux"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.11",
+    "electron-better-ipc": "^2.0.1",
+    "electron-store": "^10.0.1",
+    "electron-updater": "^6.3.9",
+    "lucide-react": "^0.477.0",
+    "tailwindcss": "^4.0.11"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config": "^2.0.0",
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.0.0",
+    "eslint": "^9.20.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "prettier": "^3.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^6.2.0"
+  }
+}
