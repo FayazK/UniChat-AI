@@ -9,10 +9,25 @@ const ipcEvents = {
 
 // Custom APIs for renderer
 const api = {
-  // API for storing and retrieving API keys
+  // API for securely storing and retrieving settings
   settings: {
-    getApiKeys: () => ipcRenderer.invoke('settings:getApiKeys'),
-    saveApiKeys: (keys) => ipcRenderer.invoke('settings:saveApiKeys', keys)
+    // API Key management (secure)
+    getApiKey: (service) => ipcRenderer.invoke('settings:getApiKey', service),
+    getAllApiKeys: () => ipcRenderer.invoke('settings:getAllApiKeys'),
+    setApiKey: (service, key) => ipcRenderer.invoke('settings:setApiKey', service, key),
+    removeApiKey: (service) => ipcRenderer.invoke('settings:removeApiKey', service),
+    
+    // General settings management
+    get: (key) => ipcRenderer.invoke('settings:get', key),
+    set: (key, value) => ipcRenderer.invoke('settings:set', key, value),
+    getAll: () => ipcRenderer.invoke('settings:getAll'),
+    
+    // Backup and restore
+    export: () => ipcRenderer.invoke('settings:export'),
+    import: (data) => ipcRenderer.invoke('settings:import', data),
+    
+    // Reset settings
+    reset: () => ipcRenderer.invoke('settings:reset')
   },
 }
 

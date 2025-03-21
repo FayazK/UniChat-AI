@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import storeManager from './store'
 
 // Global reference to the main window
 let mainWindow = null
@@ -62,34 +63,54 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // Initialize electron-store using dynamic import to handle ES Module
-  let store
-  ;(async () => {
-    try {
-      const { default: Store } = await import('electron-store')
-      store = new Store({
-        name: 'unichat-settings',
-        defaults: {
-          apiKeys: {
-            replicate: '',
-            gemini: ''
-          }
-        }
-      })
+    // Register IPC handlers for settings
+  // API Keys handlers (secure)
+  ipcMain.handle('settings:getApiKey', (_, service) => {
+    return storeManager.getApiKey(service)
+  })
 
-      // API Keys handlers
-      ipcMain.handle('settings:getApiKeys', () => {
-        return store.get('apiKeys')
-      })
+  ipcMain.handle('settings:getAllApiKeys', () => {
+    return storeManager.getAllApiKeys()
+  })
 
-      ipcMain.handle('settings:saveApiKeys', (_, keys) => {
-        store.set('apiKeys', keys)
-        return true
-      })
-    } catch (error) {
-      console.error('Failed to initialize electron-store:', error)
-    }
-  })()
+  ipcMain.handle('settings:setApiKey', (_, service, key) => {
+    storeManager.setApiKey(service, key)
+    return true
+  })
+
+  ipcMain.handle('settings:removeApiKey', (_, service) => {
+    storeManager.removeApiKey(service)
+    return true
+  })
+
+  // General settings handlers
+  ipcMain.handle('settings:get', (_, key) => {
+    return storeManager.getSetting(key)
+  })
+
+  ipcMain.handle('settings:set', (_, key, value) => {
+    storeManager.setSetting(key, value)
+    return true
+  })
+
+  ipcMain.handle('settings:getAll', () => {
+    return storeManager.getSettings()
+  })
+
+  // Backup and restore
+  ipcMain.handle('settings:export', () => {
+    return storeManager.exportSettings()
+  })
+
+  ipcMain.handle('settings:import', (_, data) => {
+    return storeManager.importSettings(data)
+  })
+
+  // Reset settings
+  ipcMain.handle('settings:reset', () => {
+    storeManager.clearAll()
+    return true
+  })
 
   createWindow()
 
