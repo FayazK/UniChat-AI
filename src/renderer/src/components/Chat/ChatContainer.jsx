@@ -51,23 +51,32 @@ function ChatContainer() {
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto py-4 px-6">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400">
-            <Bot size={40} className="mb-2" />
-            <h3 className="text-lg font-medium mb-1">Start a new conversation</h3>
-            <p>Send a message to begin chatting</p>
+          <div className="hero h-full">
+            <div className="hero-content text-center">
+              <div className="max-w-md">
+                <div className="flex justify-center mb-4">
+                  <Bot size={64} className="text-primary" />
+                </div>
+                <h1 className="text-3xl font-bold">Start a conversation</h1>
+                <p className="py-6">
+                  Send a message to begin chatting with UniChat AI. 
+                  Ask anything or request creative content.
+                </p>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
             {messages.map((message) => <ChatMessage key={message.id} message={message} />)}
             {loading && (
-              <div className="flex py-2">
-                <div className="w-8 h-8 flex-shrink-0 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center mr-3">
-                  <Bot size={18} className="text-indigo-600 dark:text-indigo-400" />
+              <div className="chat chat-start">
+                <div className="chat-image avatar">
+                  <div className="w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bot size={20} className="text-primary" />
+                  </div>
                 </div>
-                <div className="flex space-x-2 pt-2">
-                  <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600 animate-bounce"></div>
-                  <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600 animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                <div className="chat-bubble bg-base-200 text-base-content p-0 flex items-center">
+                  <span className="loading loading-dots loading-sm mx-4"></span>
                 </div>
               </div>
             )}
@@ -77,7 +86,7 @@ function ChatContainer() {
       </div>
 
       {/* Input area */}
-      <div className="border-t border-gray-200 dark:border-gray-700 py-3 px-6 bg-white dark:bg-gray-800">
+      <div className="border-t border-base-300 py-3 px-6 bg-base-100">
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </div>
     </div>
