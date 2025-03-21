@@ -1,193 +1,180 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  ChevronLeft, 
-  MessageSquare, 
-  Plus, 
-  Settings, 
-  Trash, 
-  Users,
-  PanelLeft,
-  History,
-  Bot,
-  Book,
-  Search,
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import {
+  PlusCircle,
+  FolderPlus,
+  ChevronDown,
+  ChevronRight,
+  Settings,
+  LogOut,
+  MessageSquare,
   User
-} from 'lucide-react';
-import { useSidebar } from '../../context/SidebarContext';
+} from 'lucide-react'
+import { useSidebar } from '../../context/SidebarContext'
 
 const Sidebar = () => {
-  const { isOpen, toggleSidebar } = useSidebar();
-  const location = useLocation();
+  const { isOpen } = useSidebar()
+  const location = useLocation()
+  const [showAllProjects, setShowAllProjects] = useState(false)
 
-  const mainNavItems = [
-    { path: '/', label: 'Chat', icon: <MessageSquare size={20} /> },
-    { path: '/history', label: 'History', icon: <History size={20} /> },
-    { path: '/templates', label: 'Templates', icon: <Book size={20} /> },
-  ];
+  // Mock projects data
+  const recentProjects = [
+    { id: 1, title: 'Website Redesign', path: '/projects/1' },
+    { id: 2, title: 'Mobile App', path: '/projects/2' },
+    { id: 3, title: 'E-commerce Platform', path: '/projects/3' },
+    { id: 4, title: 'Portfolio Site', path: '/projects/4' }
+  ]
 
-  const utilityNavItems = [
-    { path: '/settings', label: 'Settings', icon: <Settings size={20} /> },
-  ];
+  // Mock conversations data
+  const conversations = [
+    { id: 1, title: 'AI Art Generation', path: '/chat/1' },
+    { id: 2, title: 'Code Optimization', path: '/chat/2' },
+    { id: 3, title: 'Learning React', path: '/chat/3' }
+  ]
 
-  // Mock recent chats data
-  const recentChats = [
-    { id: 1, title: "WordPress Log Plugins", date: "Today" },
-    { id: 2, title: "Senior Solutions Architecture", date: "Yesterday" },
-    { id: 3, title: "Java Gradle Incompatibility", date: "3 days ago" },
-  ];
+  // User data
+  const user = {
+    name: 'User Name',
+    email: 'user@example.com',
+    avatar: 'U'
+  }
 
   return (
     <div
       className={`
-        sidebar h-full bg-base-200 flex flex-col border-r border-base-300
-        ${isOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}
+        h-full bg-base-100 flex flex-col border-r border-base-200 transition-all duration-300
+        ${isOpen ? 'w-64' : 'w-0'}
       `}
     >
-      {/* Logo and collapse button section */}
-      <div className="flex items-center p-4 justify-between border-b border-base-300">
-        {isOpen && (
-          <div className="flex items-center gap-2">
-            <Bot className="text-primary" size={22} />
-            <span className="font-bold text-lg">UniChat</span>
-          </div>
-        )}
-        {!isOpen && <Bot className="text-primary mx-auto" size={22} />}
-        <button 
-          onClick={toggleSidebar} 
-          className="btn btn-sm btn-ghost btn-circle ml-auto text-base-content hover:bg-base-300"
-          aria-label="Toggle sidebar"
-        >
-          <PanelLeft
-            size={18}
-            className={`transition-transform duration-300 ${isOpen ? '' : 'rotate-180'}`}
-          />
-        </button>
-      </div>
-
-      {/* New Chat Button */}
-      <div className="p-3">
-        <button
-          className={`
-            btn btn-primary w-full shadow-md
-            ${isOpen ? 'justify-start gap-2' : 'btn-square mx-auto'}
-          `}
-        >
-          <Plus size={isOpen ? 16 : 18} />
-          {isOpen && <span>New Chat</span>}
-        </button>
-      </div>
-
-      {/* Search */}
       {isOpen && (
-        <div className="px-3 pb-2">
-          <div className="relative">
-            <input 
-              type="text" 
-              placeholder="Search chats..." 
-              className="input input-sm input-bordered w-full pl-8" 
-            />
-            <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/50" />
-          </div>
-        </div>
-      )}
+        <>
+          {/* Top action buttons */}
+          <div className="px-3 py-4 space-y-2">
+            <button className="btn btn-primary w-full justify-start gap-2">
+              <PlusCircle size={18} />
+              <span>New Chat</span>
+            </button>
 
-      {/* Main Navigation */}
-      <nav className="px-2 pt-2">
-        <ul className="menu menu-sm gap-1 rounded-md">
-          {mainNavItems.map((item) => (
-            <li key={item.path}>
-              <Link
-                to={item.path}
-                className={`
-                  group flex items-center py-2 px-3 rounded-md
-                  ${location.pathname === item.path ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-base-300'} 
-                  ${isOpen ? '' : 'justify-center'}
-                `}
-              >
-                <div className={location.pathname === item.path ? 'text-primary' : 'text-base-content/70'}>
-                  {item.icon}
-                </div>
-                {isOpen && <span className="ml-2">{item.label}</span>}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Recent Chats Section */}
-      {isOpen && (
-        <div className="mt-4 px-3 flex-1 overflow-y-auto">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-medium text-base-content/60 uppercase tracking-wider">Recent Chats</h3>
-            <button className="btn btn-ghost btn-xs">
-              <History size={12} />
+            <button className="btn btn-outline btn-neutral w-full justify-start gap-2">
+              <FolderPlus size={18} />
+              <span>New Project</span>
             </button>
           </div>
-          <ul className="space-y-1">
-            {recentChats.map((chat) => (
-              <li key={chat.id} className="group">
-                <a className="flex py-2 px-3 text-sm rounded-md hover:bg-base-300">
-                  <div className="flex-1 min-w-0">
-                    <p className="truncate font-medium">{chat.title}</p>
-                    <p className="text-xs text-base-content/60">{chat.date}</p>
-                  </div>
-                  <button className="btn btn-ghost btn-xs btn-circle opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Trash size={14} />
-                  </button>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
-      {/* Utility Navigation */}
-      <div className="mt-auto border-t border-base-300">
-        <ul className="menu menu-sm p-2">
-          {utilityNavItems.map((item) => (
-            <li key={item.path}>
-              <Link
-                to={item.path}
-                className={`
-                  flex items-center py-2 rounded-md
-                  ${location.pathname === item.path ? 'bg-base-300 font-medium' : 'hover:bg-base-300'} 
-                  ${isOpen ? '' : 'justify-center'}
-                `}
+          {/* Divider */}
+          <div className="divider my-1 px-3"></div>
+
+          {/* Projects section */}
+          <div className="px-3">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-medium text-sm">Recent Projects</h3>
+              <button
+                onClick={() => setShowAllProjects(!showAllProjects)}
+                className="btn btn-ghost btn-xs"
               >
-                <div className="text-base-content/70">
-                  {item.icon}
-                </div>
-                {isOpen && <span className="ml-2">{item.label}</span>}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {/* User Profile */}
-        <div className="p-2">
-          <button
-            className={`
-              btn btn-ghost w-full justify-start rounded-md
-              ${isOpen ? '' : 'justify-center'}
-            `}
-          >
-            <div className="avatar placeholder">
-              <div className="bg-primary text-primary-content rounded-full w-8">
-                <span>U</span>
-              </div>
+                {showAllProjects ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+              </button>
             </div>
-            {isOpen && (
-              <div className="ml-2 text-left">
-                <p className="font-medium text-sm leading-none">User Name</p>
-                <p className="text-xs text-base-content/60 mt-1">Free Plan</p>
-              </div>
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default Sidebar;
+            <ul className="menu menu-sm p-0 gap-1">
+              {recentProjects
+                .slice(0, showAllProjects ? recentProjects.length : 4)
+                .map((project) => (
+                  <li key={project.id}>
+                    <Link
+                      to={project.path}
+                      className={`py-2 px-3 rounded-md ${
+                        location.pathname === project.path ? 'bg-base-200 font-medium' : ''
+                      }`}
+                    >
+                      {project.title}
+                    </Link>
+                  </li>
+                ))}
+
+              {!showAllProjects && recentProjects.length > 4 && (
+                <li>
+                  <button
+                    onClick={() => setShowAllProjects(true)}
+                    className="text-primary text-sm font-medium py-1"
+                  >
+                    Show all projects
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Divider */}
+          <div className="divider my-1 px-3"></div>
+
+          {/* Conversations section */}
+          <div className="px-3 flex-1 overflow-y-auto">
+            <h3 className="font-medium text-sm mb-2">Conversations</h3>
+            <ul className="menu menu-sm p-0 gap-1">
+              {conversations.map((conversation) => (
+                <li key={conversation.id}>
+                  <Link
+                    to={conversation.path}
+                    className={`py-2 px-3 rounded-md flex items-center gap-2 ${
+                      location.pathname === conversation.path ? 'bg-base-200 font-medium' : ''
+                    }`}
+                  >
+                    <MessageSquare size={16} />
+                    <span className="truncate">{conversation.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* User profile section */}
+          <div className="mt-auto p-3 border-t border-base-200">
+            <div className="dropdown dropdown-top dropdown-end w-full">
+              <label
+                tabIndex={0}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-base-200 cursor-pointer w-full"
+              >
+                <div className="avatar placeholder">
+                  <div className="bg-primary text-primary-content w-9 rounded-full">
+                    <span>{user.avatar}</span>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium truncate">{user.name}</p>
+                  <p className="text-xs text-base-content/70 truncate">{user.email}</p>
+                </div>
+              </label>
+
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-52 p-2 mt-1"
+              >
+                <li>
+                  <Link to="/settings" className="gap-2">
+                    <Settings size={16} />
+                    Settings
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/profile" className="gap-2">
+                    <User size={16} />
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button className="gap-2 text-error">
+                    <LogOut size={16} />
+                    Sign out
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default Sidebar
