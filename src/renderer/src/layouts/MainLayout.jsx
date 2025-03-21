@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Navbar, Sidebar } from '../components';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import { SidebarProvider, useSidebar } from '../context/SidebarContext';
 import { AlertCircle } from 'lucide-react';
 
 // MainLayout content component
 const MainLayoutContent = () => {
   const { isOpen, toggleSidebar } = useSidebar();
-  
+
   // Effect to handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768 && isOpen) {
-        // Close sidebar on small screens when navigating
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = 'auto';
@@ -21,7 +21,7 @@ const MainLayoutContent = () => {
 
     handleResize();
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       document.body.style.overflow = 'auto';
       window.removeEventListener('resize', handleResize);
@@ -29,45 +29,46 @@ const MainLayoutContent = () => {
   }, [isOpen]);
 
   return (
-    <div className="drawer lg:drawer-open">
-      <input id="main-drawer" type="checkbox" className="drawer-toggle" checked={isOpen} readOnly />
-      
-      <div className="drawer-content flex flex-col">
-        {/* Header */}
-        <Navbar title="UniChat AI" />
-        
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-auto bg-base-200/30 transition-all duration-300">
-          {/* App update notification example */}
-          <div className="w-full p-2">
-            <div className="alert alert-info shadow-sm max-w-5xl mx-auto">
-              <AlertCircle className="h-5 w-5" />
-              <div className="flex justify-between w-full items-center">
-                <span>New version available! Upgrade for new features.</span>
-                <button className="btn btn-sm btn-ghost">Update</button>
+    <div className="h-screen flex flex-col bg-base-100">
+      {/* Header */}
+      <Navbar />
+
+      {/* Main content with sidebar */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Main content area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <main className="flex-1 overflow-auto bg-base-50 p-0">
+            {/* App update notification */}
+            <div className="w-full p-3">
+              <div className="alert bg-blue-50 text-blue-700 shadow-sm max-w-3xl mx-auto flex items-center">
+                <AlertCircle className="h-5 w-5" />
+                <div className="flex justify-between w-full items-center">
+                  <span className="text-sm">New version available! Upgrade for new features.</span>
+                  <button className="btn btn-sm bg-blue-100 hover:bg-blue-200 border-none text-blue-700">
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="p-2 md:p-4">
-            <Outlet />
-          </div>
-          
-          {/* Mobile overlay for sidebar */}
-          {isOpen && (
-            <label 
-              htmlFor="main-drawer" 
-              className="drawer-overlay lg:hidden" 
-              onClick={toggleSidebar}
-            ></label>
-          )}
-        </main>
-      </div>
-      
-      {/* Sidebar area */}
-      <div className="drawer-side z-40">
-        <label htmlFor="main-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-        <Sidebar />
+            {/* Router outlet */}
+            <div className="p-3">
+              <Outlet />
+            </div>
+          </main>
+        </div>
+
+        {/* Mobile overlay for sidebar */}
+        {isOpen && (
+          <div
+            className="fixed inset-0 bg-black/20 z-30 lg:hidden"
+            onClick={toggleSidebar}
+            aria-hidden="true"
+          ></div>
+        )}
       </div>
     </div>
   );
