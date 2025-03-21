@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send } from 'lucide-react'
+import { Send, Sparkles, Paperclip, Mic, ImagePlus } from 'lucide-react'
 
 function ChatInput({ onSendMessage, disabled }) {
   const [message, setMessage] = useState('')
+  const [focused, setFocused] = useState(false)
   const textareaRef = useRef(null)
 
   // Auto-resize textarea based on content
@@ -35,26 +36,51 @@ function ChatInput({ onSendMessage, disabled }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="join w-full">
-      <div className="join-item flex-1 relative">
+    <form onSubmit={handleSubmit} className="relative">
+      <div className="relative">
         <textarea
           ref={textareaRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           placeholder="Message UniChat AI..."
           disabled={disabled}
           rows={1}
-          className="textarea textarea-bordered join-item w-full min-h-[48px] max-h-[120px] resize-none"
+          className="textarea textarea-bordered w-full pr-14 pl-16 min-h-[52px] max-h-[120px] resize-none rounded-full"
         />
+
+        {/* Send button */}
+        <button
+          type="submit"
+          disabled={!message.trim() || disabled}
+          className={`
+            absolute right-1 top-1 btn btn-circle ${message.trim() ? 'btn-primary' : 'btn-ghost text-base-content/50'}
+            transition-all duration-200 ease-in-out
+          `}
+        >
+          <Send size={18} />
+        </button>
+
+        {/* Assistant options button */}
+        {!message.trim() && (
+          <button 
+            type="button"
+            className="absolute right-1 top-1 btn btn-circle btn-ghost hover:bg-primary/10"
+            title="AI Assistant options"
+          >
+            <Sparkles size={18} className="text-primary" />
+          </button>
+        )}
       </div>
-      <button
-        type="submit"
-        disabled={!message.trim() || disabled}
-        className="btn btn-primary join-item"
-      >
-        <Send size={18} />
-      </button>
+
+      {/* Help text */}
+      {focused && !message.trim() && (
+        <div className="absolute bottom-full mb-2 text-xs text-base-content/60 w-full text-center">
+          Press Enter to send, Shift+Enter for new line
+        </div>
+      )}
     </form>
   )
 }

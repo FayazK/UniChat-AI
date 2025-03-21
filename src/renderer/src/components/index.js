@@ -7,6 +7,7 @@ import { FormInput, FormSelect, FormRange, FormCheckbox } from './form';
 import ChatContainer from './Chat/ChatContainer';
 import ChatMessage from './Chat/ChatMessage';
 import ChatInput from './Chat/ChatInput';
+import Sidebar from './Sidebar';
 
 export {
   Button,
@@ -20,5 +21,6 @@ export {
   FormCheckbox,
   ChatContainer,
   ChatMessage,
-  ChatInput
+  ChatInput,
+  Sidebar
 };

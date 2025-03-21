@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom'
-import { Navbar } from './components'
 import router from './routes'
 
 function App() {
@@ -29,14 +28,8 @@ function App() {
   }, [])
 
   return (
-    <div className="flex flex-col h-screen">
-      {/* Header */}
-      <Navbar title="UniChat AI" />
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-hidden p-4">
-        <RouterProvider router={router} />
-      </main>
+    <div className="h-screen">
+      <RouterProvider router={router} />
     </div>
   )
 }

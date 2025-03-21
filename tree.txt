@@ -1,4 +1,46 @@
 .
+├── src
+│   ├── renderer
+│   │   ├── src
+│   │   │   ├── components
+│   │   │   │   ├── Sidebar
+│   │   │   │   │   └── index.jsx
+│   │   │   │   ├── Alert.jsx
+│   │   │   │   ├── Button.jsx
+│   │   │   │   ├── Card.jsx
+│   │   │   │   ├── Chat
+│   │   │   │   │   ├── ChatContainer.jsx
+│   │   │   │   │   ├── ChatInput.jsx
+│   │   │   │   │   └── ChatMessage.jsx
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   ├── ThemeToggle.jsx
+│   │   │   │   ├── form
+│   │   │   │   │   ├── FormCheckbox.jsx
+│   │   │   │   │   ├── FormInput.jsx
+│   │   │   │   │   ├── FormRange.jsx
+│   │   │   │   │   ├── FormSelect.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
+│   │   │   ├── context
+│   │   │   │   └── SidebarContext.jsx
+│   │   │   ├── layouts
+│   │   │   │   └── MainLayout.jsx
+│   │   │   ├── pages
+│   │   │   │   ├── Settings
+│   │   │   │   │   └── index.jsx
+│   │   │   │   └── Home.jsx
+│   │   │   ├── App.jsx
+│   │   │   ├── assets
+│   │   │   │   └── main.css
+│   │   │   ├── main.jsx
+│   │   │   └── routes
+│   │   │       └── index.jsx
+│   │   └── index.html
+│   ├── main
+│   │   ├── index.js
+│   │   └── store.js
+│   └── preload
+│       └── index.js
 ├── .editorconfig
 ├── .gitignore
 ├── .npmrc
@@ -11,23 +53,15 @@
 │   ├── icon.ico
 │   └── icon.png
 ├── dev-app-update.yml
+├── docs
+│   ├── daisyui.md
+│   ├── mcp.md
+│   └── srs.md
 ├── electron-builder.yml
 ├── electron.vite.config.mjs
 ├── eslint.config.mjs
 ├── package.json
 ├── resources
 │   └── icon.png
-├── src
-│   ├── main
-│   │   └── index.js
-│   ├── preload
-│   │   └── index.js
-│   └── renderer
-│       ├── index.html
-│       └── src
-│           ├── App.jsx
-│           ├── assets
-│           │   └── main.css
-│           └── main.jsx
 ├── tree.txt
 └── yarn.lock
