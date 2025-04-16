@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-      "baseUrl": "./src/renderer/src",
+      "jsx": "react",
+      "baseUrl": ".",
       "paths": {
         "@/*": ["./src/renderer/src/*"]
       }
