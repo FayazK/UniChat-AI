@@ -17,6 +17,9 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
+    build: {
+      sourcemap: false // Disable sourcemaps for dev to test IPC issue
+    },
     plugins: [react(),tailwindcss(),]
   }
 })

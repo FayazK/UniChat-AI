@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./src/renderer/src",
+      "paths": {
+        "@/*": ["./src/renderer/src/*"]
+      }
+    }
+  }
